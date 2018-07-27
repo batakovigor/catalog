@@ -1,0 +1,37 @@
+{% extends 'core/base_core.html' %}
+
+{% block bootstrap_title %}
+    Выбор приложения
+{% endblock %}
+
+{%  block bootstrap_content %}
+
+<div class="container">
+     <div class="row">
+         <div class="col-md-4 col-sm-6">
+             <div class="serviceBox">
+                 <div class="service-icon">
+                    <i class="fa fa-server"></i>
+                 </div>
+                 <div class="service-content">
+                     <h3><a href="/demowork/">Показательный допуск</a></h3>
+                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac lacus cursus, blandit dolor quis, blandit velit. Curabitur aliquet ante vel pulvinar finibus. Pellentesque.</p>
+                 </div>
+                 <div class="read">
+                    <a href="/demowork/" class="btn btn-default">Открыть</a>
+                 </div>
+             </div>
+         </div>
+     </div><!-- ./row -->
+
+
+
+     <div class="row">
+         <div class="col-md-4 col-sm-6 offset-md-3">
+                <a id="exitConfirm" href="{% url 'core-logout' %}" class="btn btn-primary">Выход</a>
+         </div>
+     </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'my_bootstrap.html' %}
+{% load render_table from django_tables2 %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block bootstrap_extra_head %}
+    <link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
+{% endblock %}
+
+{% block bootstrap_title %}
+    Показательная работа
+{% endblock %}
+
+
+{%  block bootstrap_content %}
+
+     <div>
+        {% bootstrap_form form_demowork %}
+     </div>
+    <div>
+        <p>Список материалов</p>
+         {% if table %}
+            {% render_table table %}
+         {% else %}
+            <p>Записи отсутсвуют</p>
+        {% endif %}
+    </div>
+{% endblock %}
