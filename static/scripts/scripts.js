@@ -12,8 +12,8 @@ $('.dropdown-toggle').dropdown();
 
 
 $('#id_id_otdel').addClass('filter-margin');
-$('#id_date_work__year').addClass('filter-margin').attr('placeholder', 'Год');
-$('#id_date_work__month').addClass('filter-margin').attr('placeholder', 'Месяц');
+$('#id_year_work').addClass('filter-margin');
+$('#id_month_work').addClass('filter-margin');
 
 $(function() {
       $("#chkBoxFilterSwitch").change(function() {

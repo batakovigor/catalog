@@ -2,6 +2,7 @@ from django.db.models import Q
 import django_filters
 import demowork.models
 import itertools
+from django import forms
 
 def filter_not_empty(queryset, name, value):
     lookup = '__'.join([name, 'isnull'])
@@ -9,14 +10,19 @@ def filter_not_empty(queryset, name, value):
 
 
 class DemoWorksFilter(django_filters.FilterSet):
-
+    year_work = django_filters.NumberFilter(field_name='date_work', lookup_expr='year', label='Год')
+    month_work = django_filters.NumberFilter(field_name='date_work', lookup_expr='month', label='Месяц')
+    #m_work = django_filters.ModelChoiceFilter(queryset=demowork.models.DemoWorks.objects.filter(date_work__month__in=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']))
     class Meta:
         model = demowork.models.DemoWorks
 
-        fields = {
-            'id_otdel':['exact'],
-            'date_work':['year__exact', 'month__exact'],
-        }
+        # fields = {
+        #     'id_otdel':['exact'],
+        #     'date_work':['year__exact', 'month__exact'],
+        # }
+        #fields = ['id_otdel', 'year_work', 'month_work', 'm_work']
+        fields = ['id_otdel', 'year_work', 'month_work']
+
 
 
 class DemoWorksFilterEx(django_filters.FilterSet):
