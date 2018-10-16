@@ -21,10 +21,10 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^$', views.DemoWorksFilteredSingleTableView.as_view(), name='demowork_list'),
-    url(r'^nofilter/$', views.DemoWorksSingleTableView.as_view() ),
-    url(r'^filter2/$', views.FilteredTableView.as_view() ),
-    url(r'^filter_ex/$', views.FilterExListView.as_view(), name='demowork_list_ex' ),
+    path('', views.DemoWorksFilteredSingleTableView.as_view(), name='demowork_list'),
+    path('nofilter/', views.DemoWorksSingleTableView.as_view() ),
+    path('filter2/', views.FilteredTableView.as_view() ),
+    path('filter_ex/', views.FilterExListView.as_view(), name='demowork_list_ex' ),
     path('new/', views.DemoWorksCreate, name='demowork_new'),
     path('view/<int:pk>', views.DemoWorksView, name='demowork_view'),
     path('edit/<int:pk>', views.DemoWorksUpdate, name='demowork_edit'),

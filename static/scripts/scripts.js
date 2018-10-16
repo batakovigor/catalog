@@ -15,30 +15,16 @@ $('#id_id_otdel').addClass('filter-margin');
 $('#id_year_work').addClass('filter-margin');
 $('#id_month_work').addClass('filter-margin');
 
-$(function() {
-      $("#chkBoxFilterSwitch").change(function() {
-          if ($(this).is(':checked')) {
-              $.ajax({
-                  url: '/demowork/filter_ex/',
-                  cache: false,
-                  success: function(response) {
-                      window.location.href = response.url;
-                      $window.location.reload();
+$('#chkBoxFilterSwitch').change(function() {
+  if ($(this).is(':checked')) {
+      alert('+');
+      document.location.href = '/demowork/filter_ex/'
 
-                  }
-              })
-          } else {
-
-              $.ajax({
-                  url: '/demowork/',
-                  cache: false,
-                  success: function (response) {
-                      window.location.href = response.url;
-
-                  }
-              })
-          }
-      });
+  } else {
+      alert('-');
+      document.location.href = '/demowork/'
+  }
 });
+
 
 //$('#exampleModalCenter').modal(options);

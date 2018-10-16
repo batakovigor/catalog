@@ -21,12 +21,8 @@ from django.conf import settings
 from core import views
 
 urlpatterns = [
-    path('core/login/', auth_views.login,
-         {'template_name': 'core/registration/login.html'},
-         name='core-login'),
-    path('core/logout/', auth_views.logout,
-         {'next_page': '/'},
-         name='core-logout'),
+    path('core/login/', auth_views.LoginView.as_view(template_name='core/registration/login.html'), name='core-login'),
+    path('core/logout/', auth_views.LogoutView.as_view(next_page='/'), name='core-logout'),
     path('core/sign-up/', views.core_sign_up, name='core-sign-up'),
     path('core/', views.core_home, name='core-home'),
     path('', views.index, name='index'),
