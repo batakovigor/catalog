@@ -17,7 +17,7 @@ def core_home(request):
 
 def core_sign_up(request):
     if request.method == "POST":
-        
+        request.session.set_test_cookie()
         # Проверить, что браузер принимает cookie:
         if request.session.test_cookie_worked():
 
