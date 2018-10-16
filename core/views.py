@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
@@ -16,12 +17,24 @@ def core_home(request):
 
 def core_sign_up(request):
     if request.method == "POST":
-        user = authenticate(
-            username=request.POST['username'],
-            password=request.POST['password']
-            )
-        if user is not None:
-            login(request, user)
+        
+        # Проверить, что браузер принимает cookie:
+        if request.session.test_cookie_worked():
 
+            # Браузер принимает, удаляем тестовый cookie.
+            request.session.delete_test_cookie()
+
+            user = authenticate(
+                username=request.POST['username'],
+                password=request.POST['password']
+                )
+            if user is not None:
+                login(request, user)
+        else:
+            return HttpResponse("Please enable cookies and try again.")
+
+        # Если мы не отсылали форму, отправляем тестовое cookie
+        # вместе с формой аутентификации.
+        request.session.set_test_cookie()
         return redirect(core_home)
 
