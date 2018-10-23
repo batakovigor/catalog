@@ -12,18 +12,31 @@
 {% endblock %}
 
 {% block bootstrap_content %}
-<form method="post">{% csrf_token %}
-    <div>
-        {% bootstrap_form form %}
-     </div>
-    <div>
-        <p>Список материалов</p>
-         {% if table %}
-            {% render_table table %}
-         {% else %}
-            <p>Записи отсутсвуют</p>
-        {% endif %}
+<form method="post">
+    {% csrf_token %}
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Записать" >
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Создать (редактировать) запись</h4>
     </div>
-    <input type="submit" value="Записать" />
+    <div class="modal-body">
+        <div>
+            {% bootstrap_form form %}
+        </div>
+
+        <div>
+            <p>Список материалов</p>
+            {% if table %}
+                {% render_table table %}
+            {% else %}
+                <p>Записи отсутсвуют</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+        <button type="submit" class="btn btn-primary">Записать</button>
+    </div>
 </form>
 {% endblock %}

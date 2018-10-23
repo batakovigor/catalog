@@ -26,5 +26,20 @@ $('#chkBoxFilterSwitch').change(function() {
   }
 });
 
+$(function () {
+    $(".js-create-demowork").click(function () {
+        $.ajax({
+            url: 'new/',
+            type: 'get',
+            dataType: 'json',
+            beforeSend: function () {
+                $("#modal-book").modal("show");
+            },
+            success: function (data) {
+                $("#modal-book .modal-content").html(data.html_form);
+            }
+        });
+    });
+});
 
 //$('#exampleModalCenter').modal(options);
