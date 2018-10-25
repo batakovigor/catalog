@@ -1,19 +1,9 @@
-{% extends 'my_bootstrap.html' %}
 {% load render_table from django_tables2 %}
 {% load bootstrap4 %}
 {% load static %}
 {% load widget_tweaks %}
 
-{% block bootstrap_extra_head %}
-    <link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
-{% endblock %}
-
-{% block bootstrap_title %}
-    Добавление (редактирование) работы
-{% endblock %}
-
-{% block bootstrap_content %}
-<form method="post">
+<form method="post" action="{% url 'demowork_new' %}" class="js-demowork-create-form">
     {% csrf_token %}
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Записать" >
@@ -40,4 +30,3 @@
         <button type="submit" class="btn btn-primary">Записать</button>
     </div>
 </form>
-{% endblock %}

@@ -7,7 +7,7 @@ from .models import DemoWorks, RecordsDemoWorks, Otdel
 class DemoWorksForm(ModelForm):
     class Meta:
         model = DemoWorks
-        fields = ['id_otdel', 'title', 'date_work', 'tags', 'keywords', 'description']
+        fields = ['id_otdel', 'title', 'date_work', 'autor', 'tags', 'keywords', 'description']
 
 class RecordsDemoWorksForm(ModelForm):
     class Meta:

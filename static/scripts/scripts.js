@@ -33,13 +33,33 @@ $(function () {
             type: 'get',
             dataType: 'json',
             beforeSend: function () {
-                $("#modal-book").modal("show");
+                $("#modal-demowork").modal("show");
             },
             success: function (data) {
-                $("#modal-book .modal-content").html(data.html_form);
+                $("#modal-demowork .modal-content").html(data.html_form);
             }
         });
     });
 });
+
+$("#modal-demowork").on("submit", ".js-demowork-create-form", function () {
+    var form = $(this);
+    $.ajax({
+        url: form.attr("action"),
+        data: form.serialize(),
+        type: form.attr("method"),
+        dataType: 'json',
+        success: function (data) {
+            if (data.form_is_valid) {
+                $("#demoworks-table tbody").html(data.html_demoworks_list); // <-- Replace the table body
+                $("#modal-demowork").modal("hide"); // <-- Close the modal
+            } else {
+                $("#modal-demowork .modal-content").html(data.html_form);
+            }
+        }
+    });
+    return false;
+});
+
 
 //$('#exampleModalCenter').modal(options);

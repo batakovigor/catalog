@@ -1,5 +1,6 @@
-from django.http import FileResponse, Http404
+from django.http import FileResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
 from django.views.generic import ListView
 from django_tables2 import RequestConfig, SingleTableView
 from django.views.generic.edit import FormView
@@ -126,26 +127,34 @@ def DemoWorksView(request, pk, template_name='demowork/demoworks_detail.html'):
     return render(request, template_name, context)
 
 def DemoWorksCreate(request, template_name='demowork/demoworks_form.html'):
-   form = DemoWorksForm(request.POST or None)
-   if form.is_valid():
-       form.save()
-       return redirect('demowork_list')
-   return render(request, template_name, {'form': form})
+    data = dict()
+    if request.method == 'POST':
+        form = DemoWorksForm(request.POST)
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = True
+            demoworks = DemoWorks.objects.all()
+            data['html_demoworks_list'] = render_to_string('demowork/demoworks_list.html', {'demoworks': demoworks})
+        else:
+            data['form_is_valid'] = False
+    else:
+        form = DemoWorksForm()
+
+    context = {'form': form}
+    data['html_form'] = render_to_string(template_name, context,request=request)
+
+    return JsonResponse(data)
 
 def DemoWorksUpdate(request, pk, template_name='demowork/demoworks_form.html'):
     demowork = get_object_or_404(DemoWorks, pk=pk)
     form = DemoWorksForm(request.POST or None, instance=demowork)
-
     table = RecordsDemoWorksTable(RecordsDemoWorks.objects.filter(id_demoworks=pk))
     RequestConfig(request).configure(table)
 
-    if form.is_valid():
-        form.save()
-        return redirect('demowork_list')
-    return render(request, template_name, {
-        'form': form,
-        'table': table
-    })
+    context = {'form': form, 'table': table}
+    html_form = render_to_string(template_name, context, request=request)
+
+    return JsonResponse({'html_form': html_form})
 
 def DemoWorksDelete(request, pk, template_name='demowork/demoworks_confirm_delete.html'):
     pass
