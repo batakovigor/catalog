@@ -133,8 +133,8 @@ def DemoWorksCreate(request, template_name='demowork/demoworks_form.html'):
         if form.is_valid():
             form.save()
             data['form_is_valid'] = True
-            demoworks = DemoWorks.objects.all()
-            data['html_demoworks_list'] = render_to_string('demowork/demoworks_list.html', {'demoworks': demoworks})
+            table = DemoWorks.objects.all()
+            data['html_demoworks_list'] = render_to_string('demowork/demoworks_list_update.html', {'table': table})
         else:
             data['form_is_valid'] = False
     else:

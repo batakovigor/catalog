@@ -1,0 +1,12 @@
+{% load render_table from django_tables2 %}
+{% load bootstrap4 %}
+
+{% block bootstrap_content %}
+    <div>
+        {% if table %}
+            {% render_table table %}
+        {% else %}
+            <p>Записи отсутсвуют</p>
+        {% endif %}
+    </div>
+{% endblock %}
