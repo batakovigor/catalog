@@ -27,9 +27,11 @@ $('#chkBoxFilterSwitch').change(function() {
 });
 
 $(function () {
-    $(".js-create-demowork").click(function () {
+/* Functions */
+    var loadForm = function () {
+        var btn = $(this);
         $.ajax({
-            url: 'new/',
+            url: btn.attr("data-url"),
             type: 'get',
             dataType: 'json',
             beforeSend: function () {
@@ -39,26 +41,32 @@ $(function () {
                 $("#modal-demowork .modal-content").html(data.html_form);
             }
         });
-    });
-});
-
-$("#modal-demowork").on("submit", ".js-demowork-create-form", function () {
-    var form = $(this);
-    $.ajax({
-        url: form.attr("action"),
-        data: form.serialize(),
-        type: form.attr("method"),
-        dataType: 'json',
-        success: function (data) {
-            if (data.form_is_valid) {
-                $("#demoworks-table tbody").html(data.html_demoworks_list); // <-- Replace the table body
-                $("#modal-demowork").modal("hide"); // <-- Close the modal
-            } else {
-                $("#modal-demowork .modal-content").html(data.html_form);
+    };
+    var saveForm = function () {
+        var form = $(this);
+        $.ajax({
+            url: form.attr("action"),
+            data: form.serialize(),
+            type: form.attr("method"),
+            dataType: 'json',
+            success: function (data) {
+                if (data.form_is_valid) {
+                    $("#demowork-table tbody").html(data.html_book_list);
+                    $("#modal-demowork").modal("hide");
+                } else {
+                    $("#modal-demowork .modal-content").html(data.html_form);
+                }
             }
-        }
-    });
-    return false;
+        });
+        return false;
+    };
+/* Binding */
+// Create book
+    $(".js-create-demowork").click(loadForm);
+    $("#modal-demowork").on("submit", ".js-demowork-create-form", saveForm);
+// Update book
+    $("#demowork-table").on("click", ".js-update-demowork", loadForm);
+    $("#modal-demowork").on("submit", ".js-demowork-update-form", saveForm);
 });
 
 

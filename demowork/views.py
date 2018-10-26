@@ -154,7 +154,7 @@ def DemoWorksCreate(request):
 
 #,
 def DemoWorksUpdate(request, pk):
-    template_name = 'demowork/includes/partial_demowork_create.html'
+    template_name = 'demowork/includes/partial_demowork_update.html'
     demowork = get_object_or_404(DemoWorks, pk=pk)
     if request.method == 'POST':
         form = DemoWorksForm(request.POST or None, instance=demowork)
@@ -169,8 +169,22 @@ def DemoWorksUpdate(request, pk):
     #html_form = render_to_string(template_name, context, request=request)
     #return JsonResponse({'html_form': html_form})
 
-def DemoWorksDelete(request, pk, template_name='demowork/demoworks_confirm_delete.html'):
-    pass
+def DemoWorksDelete(request, pk):
+    template_name = 'demowork/includes/partial_demowork_delete.html'
+    demowork = get_object_or_404(DemoWorks, pk=pk)
+    data = dict()
+    if request.method == 'POST':
+        demowork.delete()
+        data['form_is_valid'] = True
+        table = DemoWorksTable(DemoWorks.objects.all())
+        RequestConfig(request, ).configure(table)
+        data['html_demoworks_list'] = render_to_string('demowork/demoworks_list_update.html', {'table': table},
+                                                       request=request)
+    else:
+        context = {'demowork': demowork}
+        data['html_form'] = render_to_string(template_name, context, request=request)
+
+    return JsonResponse(data)
 
 def RecordDemoWorksUpdate(request, pk):
     pass

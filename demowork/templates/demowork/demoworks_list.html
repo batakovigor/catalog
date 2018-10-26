@@ -22,8 +22,10 @@
         </form>
     {% endif %}
     <div>
-        <button type="button" class="btn btn-primary js-create-demowork">
-            <span class="glyphicon glyphicon-plus"></span>
+        <button type="button"
+                class="btn btn-primary js-create-demowork"
+                data-url="{% url 'demowork_new' %}">
+            <span class="fa fa-plus"></span>
             Добавить
         </button>
     </div>
@@ -36,8 +38,8 @@
     </div>
 
 
-    <div class="modal fade" id="modal-demowork">
-        <div class="modal-dialog">
+    <div class="modal fade" id="modal-demowork" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
             </div>
         </div>

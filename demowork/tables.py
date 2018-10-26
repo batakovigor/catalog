@@ -10,12 +10,20 @@ class DemoWorksTable(tables.Table):
     #title = tables.LinkColumn('demowork_view', text=lambda record: record.title, args=[A('pk')])
     #date_work = tables.LinkColumn('demowork_view', text=lambda record: record.date_work, args=[A('pk')])
     #description = tables.LinkColumn('demowork_view', text=lambda record: record.description, args=[A('pk')])
+    edit = tables.TemplateColumn(
+        '<button type="button" class="btn btn-warning btn-sm js-update-demowork" data-url="/demowork/edit/{{ record.id }}" ><span class="fa fa-pencil"></span></button><button type="button" class="btn btn-danger btn-sm js-update-demowork" data-url="/demowork/delete/{{ record.id }}" ><span class="fa fa-trash-o"></span></button>',
+        verbose_name=None, orderable=False,
+    )
+
+
+
+
 
     class Meta:
         model = DemoWorks
         attrs = {
-            'class': 'paleblue js-create-demowork',
-            'id': 'demoworks-table'
+            'class': 'paleblue',
+            'id': 'demowork-table'
         }
         row_attrs = {'data-id': lambda record: record.pk}
         exclude = {'date_public','autor','tags','keywords'}
