@@ -126,35 +126,48 @@ def DemoWorksView(request, pk, template_name='demowork/demoworks_detail.html'):
     }
     return render(request, template_name, context)
 
-def DemoWorksCreate(request, template_name='demowork/demoworks_form.html'):
+def DemoWorksSave(request, form, template_name):
     data = dict()
     if request.method == 'POST':
-        form = DemoWorksForm(request.POST)
         if form.is_valid():
             form.save()
             data['form_is_valid'] = True
-            table = DemoWorks.objects.all()
-            data['html_demoworks_list'] = render_to_string('demowork/demoworks_list_update.html', {'table': table})
+            table = DemoWorksTable(DemoWorks.objects.all())
+            RequestConfig(request, ).configure(table)
+            data['html_demoworks_list'] = render_to_string('demowork/demoworks_list_update.html', {'table': table},
+                                                           request=request)
         else:
             data['form_is_valid'] = False
+
+    context = {'form': form}
+    data['html_form'] = render_to_string(template_name, context, request=request)
+    return JsonResponse(data)
+
+def DemoWorksCreate(request):
+    template_name = 'demowork/includes/partial_demowork_create.html'
+    if request.method == 'POST':
+        form = DemoWorksForm(request.POST)
     else:
         form = DemoWorksForm()
 
-    context = {'form': form}
-    data['html_form'] = render_to_string(template_name, context,request=request)
+    return DemoWorksSave(request, form, template_name)
 
-    return JsonResponse(data)
-
-def DemoWorksUpdate(request, pk, template_name='demowork/demoworks_form.html'):
+#,
+def DemoWorksUpdate(request, pk):
+    template_name = 'demowork/includes/partial_demowork_create.html'
     demowork = get_object_or_404(DemoWorks, pk=pk)
-    form = DemoWorksForm(request.POST or None, instance=demowork)
-    table = RecordsDemoWorksTable(RecordsDemoWorks.objects.filter(id_demoworks=pk))
-    RequestConfig(request).configure(table)
+    if request.method == 'POST':
+        form = DemoWorksForm(request.POST or None, instance=demowork)
+        table = RecordsDemoWorksTable(RecordsDemoWorks.objects.filter(id_demoworks=pk))
+        RequestConfig(request).configure(table)
+        context = {'form': form, 'table': table}
+    else:
+        form = DemoWorksForm(instance=demowork)
+    return DemoWorksSave(request, form, template_name)
 
-    context = {'form': form, 'table': table}
-    html_form = render_to_string(template_name, context, request=request)
-
-    return JsonResponse({'html_form': html_form})
+    #context = {'form': form, 'table': table}
+    #html_form = render_to_string(template_name, context, request=request)
+    #return JsonResponse({'html_form': html_form})
 
 def DemoWorksDelete(request, pk, template_name='demowork/demoworks_confirm_delete.html'):
     pass
