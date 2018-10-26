@@ -17,11 +17,9 @@ $('#id_month_work').addClass('filter-margin');
 
 $('#chkBoxFilterSwitch').change(function() {
   if ($(this).is(':checked')) {
-      alert('+');
       document.location.href = '/demowork/filter_ex/'
 
   } else {
-      alert('-');
       document.location.href = '/demowork/'
   }
 });
