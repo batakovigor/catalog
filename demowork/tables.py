@@ -6,19 +6,11 @@ import itertools
 
 
 class DemoWorksTable(tables.Table):
-    #id_otdel = tables.LinkColumn('demowork_view', text=lambda record: record.id_otdel, args=[A('pk')])
-    #title = tables.LinkColumn('demowork_view', text=lambda record: record.title, args=[A('pk')])
-    #date_work = tables.LinkColumn('demowork_view', text=lambda record: record.date_work, args=[A('pk')])
-    #description = tables.LinkColumn('demowork_view', text=lambda record: record.description, args=[A('pk')])
+
     edit = tables.TemplateColumn(
-        '<button type="button" class="btn btn-warning btn-sm js-update-demowork" data-url="/demowork/edit/{{ record.id }}" ><span class="fa fa-pencil"></span></button><button type="button" class="btn btn-danger btn-sm js-update-demowork" data-url="/demowork/delete/{{ record.id }}" ><span class="fa fa-trash-o"></span></button>',
+        '<button type="button" class="btn btn-warning btn-sm js-update-demowork" data-url="/demowork/edit/{{ record.id }}" ><span class="fa fa-pencil"></span></button><button type="button" class="btn btn-danger btn-sm js-delete-demowork" data-url="/demowork/delete/{{ record.id }}" ><span class="fa fa-trash-o"></span></button>',
         verbose_name=None, orderable=False,
     )
-
-
-
-
-
     class Meta:
         model = DemoWorks
         attrs = {
@@ -27,7 +19,7 @@ class DemoWorksTable(tables.Table):
         }
         row_attrs = {'data-id': lambda record: record.pk}
         exclude = {'date_public','autor','tags','keywords'}
-        template_name = 'django_tables2/bootstrap4.html'
+        template_name = 'django_tables2/bootstrap.html'
 
 
 class RecordsDemoWorksTable(tables.Table):
@@ -46,4 +38,4 @@ class RecordsDemoWorksTable(tables.Table):
             'class': 'paleblue',
         }
         exclude = {'id_demoworks','keywords'}
-        template_name = 'django_tables2/bootstrap4.html'
+        template_name = 'django_tables2/bootstrap.html'

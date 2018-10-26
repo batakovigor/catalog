@@ -111,7 +111,8 @@ class FileFieldView(FormView):
 
         return self.form_invalid(form)
 
-def DemoWorksView(request, pk, template_name='demowork/demoworks_detail.html'):
+def DemoWorksView(request, pk):
+    template_name = 'demowork/demoworks_detail.html'
     #w_list = DemoWorks.objects.filter(date_public__year=year, date_public__month=month, pk=pk)
 
     demowork = get_object_or_404(DemoWorks, pk=pk)
@@ -132,9 +133,9 @@ def DemoWorksSave(request, form, template_name):
         if form.is_valid():
             form.save()
             data['form_is_valid'] = True
-            table = DemoWorksTable(DemoWorks.objects.all())
-            RequestConfig(request, ).configure(table)
-            data['html_demoworks_list'] = render_to_string('demowork/demoworks_list_update.html', {'table': table},
+            demowork = DemoWorksTable(DemoWorks.objects.all())
+            RequestConfig(request, ).configure(demowork)
+            data['html_demowork_list'] = render_to_string('demowork/demoworks_list_update.html', {'table': demowork},
                                                            request=request)
         else:
             data['form_is_valid'] = False
@@ -157,7 +158,7 @@ def DemoWorksUpdate(request, pk):
     template_name = 'demowork/includes/partial_demowork_update.html'
     demowork = get_object_or_404(DemoWorks, pk=pk)
     if request.method == 'POST':
-        form = DemoWorksForm(request.POST or None, instance=demowork)
+        form = DemoWorksForm(request.POST, instance=demowork)
         table = RecordsDemoWorksTable(RecordsDemoWorks.objects.filter(id_demoworks=pk))
         RequestConfig(request).configure(table)
         context = {'form': form, 'table': table}
@@ -178,7 +179,7 @@ def DemoWorksDelete(request, pk):
         data['form_is_valid'] = True
         table = DemoWorksTable(DemoWorks.objects.all())
         RequestConfig(request, ).configure(table)
-        data['html_demoworks_list'] = render_to_string('demowork/demoworks_list_update.html', {'table': table},
+        data['html_demowork_list'] = render_to_string('demowork/demoworks_list_update.html', {'table': table},
                                                        request=request)
     else:
         context = {'demowork': demowork}

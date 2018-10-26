@@ -1,39 +1,10 @@
 {% load render_table from django_tables2 %}
 {% load bootstrap4 %}
 
-{% block bootstrap_content %}
-    <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="chkBoxFilterSwitch" value="option1">
-        <label class="form-check-label" for="chkBoxFilterSwitch">Поиск по ключевым словам</label>
-        <div id="divContent"></div>
-    </div>
-    {% if filter %}
-        <form action="" method="get" class="form form-inline">
-            {% bootstrap_form filter.form layout='inline' %}
-            {% bootstrap_button 'Отобрать' button_class="btn-primary btn-sm filter-margin" %}
-            <div><a href="{{ request.path }}" class="btn btn-secondary btn-sm filter-margin" role="button" aria-pressed="true" > Очистить </a></div>
-            <div>Отображено {{ filter.qs.count }} из {{ filter.queryset.count }} элементов.</div>
-        </form>
+<div>
+    {% if table %}
+        {% render_table table %}
+    {% else %}
+        <p>Записи отсутсвуют</p>
     {% endif %}
-    <div>
-        <button type="button" class="btn btn-primary js-create-demowork">
-            <span class="glyphicon glyphicon-plus"></span>
-            Добавить запись
-        </button>
-    </div>
-    <div>
-        {% if table %}
-            {% render_table table %}
-        {% else %}
-            <p>Записи отсутсвуют</p>
-        {% endif %}
-    </div>
-
-
-    <div class="modal fade" id="modal-demowork">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            </div>
-        </div>
-    </div>
-{% endblock %}
+</div>

@@ -51,7 +51,7 @@ $(function () {
             dataType: 'json',
             success: function (data) {
                 if (data.form_is_valid) {
-                    $("#demowork-table tbody").html(data.html_book_list);
+                    $("#demowork-table tbody").html(data.html_demowork_list);
                     $("#modal-demowork").modal("hide");
                 } else {
                     $("#modal-demowork .modal-content").html(data.html_form);
@@ -60,13 +60,16 @@ $(function () {
         });
         return false;
     };
-/* Binding */
-// Create book
+    /* Binding */
+    // Create book
     $(".js-create-demowork").click(loadForm);
     $("#modal-demowork").on("submit", ".js-demowork-create-form", saveForm);
-// Update book
+    // Update book
     $("#demowork-table").on("click", ".js-update-demowork", loadForm);
     $("#modal-demowork").on("submit", ".js-demowork-update-form", saveForm);
+    // Delete book
+    $("#demowork-table").on("click", ".js-delete-demowork", loadForm);
+    $("#modal-demowork").on("submit", ".js-demowork-delete-form", saveForm);
 });
 
 
