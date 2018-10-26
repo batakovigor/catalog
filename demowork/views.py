@@ -116,18 +116,18 @@ def DemoWorksView(request, pk):
     #w_list = DemoWorks.objects.filter(date_public__year=year, date_public__month=month, pk=pk)
 
     demowork = get_object_or_404(DemoWorks, pk=pk)
-    form_demowork = DemoWorksForm(request.POST or None, instance=demowork)
+    form = DemoWorksForm(request.POST or None, instance=demowork)
 
     table = RecordsDemoWorksTable(RecordsDemoWorks.objects.filter(id_demoworks = pk))
     RequestConfig(request).configure(table)
 
     context = {
-        'form_demowork': form_demowork,
+        'form_demowork': form,
         'table': table
     }
     return render(request, template_name, context)
 
-def DemoWorksSave(request, form, template_name):
+def DemoWorksSave(request, form, template_name, table=None):
     data = dict()
     if request.method == 'POST':
         if form.is_valid():
@@ -140,7 +140,7 @@ def DemoWorksSave(request, form, template_name):
         else:
             data['form_is_valid'] = False
 
-    context = {'form': form}
+    context = {'form': form, 'table': table}
     data['html_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)
 
@@ -158,13 +158,13 @@ def DemoWorksUpdate(request, pk):
     template_name = 'demowork/includes/partial_demowork_update.html'
     demowork = get_object_or_404(DemoWorks, pk=pk)
     if request.method == 'POST':
-        form = DemoWorksForm(request.POST, instance=demowork)
-        table = RecordsDemoWorksTable(RecordsDemoWorks.objects.filter(id_demoworks=pk))
-        RequestConfig(request).configure(table)
-        context = {'form': form, 'table': table}
+        form = DemoWorksForm(request.POST  or None, instance=demowork)
+
     else:
         form = DemoWorksForm(instance=demowork)
-    return DemoWorksSave(request, form, template_name)
+    table = RecordsDemoWorksTable(RecordsDemoWorks.objects.filter(id_demoworks=pk))
+    RequestConfig(request).configure(table)
+    return DemoWorksSave(request, form, template_name, table)
 
     #context = {'form': form, 'table': table}
     #html_form = render_to_string(template_name, context, request=request)
