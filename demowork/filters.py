@@ -4,15 +4,45 @@ import demowork.models
 import itertools
 from django import forms
 
+MONTH_LIST = (
+        (1, 'январь'),
+        (2, 'февраль'),
+        (3, 'март'),
+        (4, 'апрель'),
+        (5, 'май'),
+        (6, 'июнь'),
+        (7, 'июль'),
+        (8, 'август'),
+        (9, 'сентябрь'),
+        (10, 'октябрь'),
+        (11, 'ноябрь'),
+        (12, 'декабрь'),
+    )
+
+def get_year_list():
+
+    a = []
+    b = []
+    years = demowork.models.DemoWorks.objects.values('date_work__year').order_by('date_work__year').distinct()
+    for y in years:
+        a.append(y['date_work__year'])
+        b.append(str(y['date_work__year']))
+
+    YEAR_LIST = tuple(zip(a, b))
+
+    return YEAR_LIST
+
+
+
 def filter_not_empty(queryset, name, value):
     lookup = '__'.join([name, 'isnull'])
     return queryset.filter(**{lookup: False})
 
 
 class DemoWorksFilter(django_filters.FilterSet):
-    year_work = django_filters.NumberFilter(field_name='date_work', lookup_expr='year', label='Год')
-    month_work = django_filters.NumberFilter(field_name='date_work', lookup_expr='month', label='Месяц')
-    #m_work = django_filters.ModelChoiceFilter(queryset=demowork.models.DemoWorks.objects.filter(date_work__month__in=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']))
+    year_work = django_filters.ChoiceFilter(field_name='date_work__year', choices=get_year_list(), label='Год')
+    month_work = django_filters.ChoiceFilter(field_name='date_work__month', choices=MONTH_LIST, label='Месяц')
+
     class Meta:
         model = demowork.models.DemoWorks
 
